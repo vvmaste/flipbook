@@ -11,35 +11,41 @@ body{
     font-family:Arial;
 }
 
-/* toolbar */
 .toolbar{
     text-align:center;
     padding:10px;
 }
 
-/* buttons */
 button{
     padding:6px 12px;
     margin:4px;
     cursor:pointer;
 }
 
-/* responsive book */
+/* desktop flip */
 #flipbook{
     width:98vw;
     height:90vh;
     margin:auto;
 }
 
-.page img{
-    width:100%;
-    height:100%;
-    object-fit:contain;
-    background:white;
+/* mobile scroll */
+@media(max-width:768px){
+    #flipbook{
+        height:auto;
+    }
+    .page{
+        width:100%;
+        height:auto;
+    }
+    .page img{
+        width:100%;
+        height:auto;
+        display:block;
+    }
 }
 </style>
 
-<!-- StPageFlip -->
 <script src="page-flip.browser.js"></script>
 
 </head>
@@ -47,8 +53,8 @@ button{
 <body>
 
 <div class="toolbar">
-    <button onclick="pf.flipPrev()">◀ Prev</button>
-    <button onclick="pf.flipNext()">Next ▶</button>
+    <button onclick="prev()">◀ Prev</button>
+    <button onclick="next()">Next ▶</button>
     <button onclick="downloadPDF()">Download PDF</button>
 </div>
 
@@ -62,77 +68,73 @@ button{
 
 <script>
 
-/* ---------- responsive sizing ---------- */
-function getSize(){
-    return {
-        width: Math.min(window.innerWidth * 0.98, 1200),
-        height: window.innerHeight * 0.9
-    };
+const isMobile = window.innerWidth < 768;
+
+/* ================= MOBILE ================= */
+/* simply DO NOTHING → natural scroll */
+
+if(isMobile){
+
+    window.prev = () => window.scrollBy(0,-window.innerHeight);
+    window.next = () => window.scrollBy(0, window.innerHeight);
+
 }
 
-let size = getSize();
+/* ================= DESKTOP ================= */
+else{
 
-/* ---------- flipbook ---------- */
-const pf = new St.PageFlip(
-    document.getElementById("flipbook"),
-    {
-        width: size.width,
-        height: size.height,
-
-        showCover:true,
-
-        /* 🔥 smooth + realistic */
-        flippingTime: 1400,
-        maxShadowOpacity: 0.6,
-        drawShadow:true,
-
-        /* 🔥 mobile optimized */
-        usePortrait:true,            // single page on phones
-        mobileScrollSupport:false,   // allow normal scrolling
-        useMouseEvents:true
+    function getSize(){
+        return {
+            width: Math.min(window.innerWidth * 0.98, 1200),
+            height: window.innerHeight * 0.9
+        };
     }
-);
 
-pf.loadFromHTML(document.querySelectorAll(".page"));
-window.pf = pf;
+    let size = getSize();
 
+    const pf = new St.PageFlip(
+        document.getElementById("flipbook"),
+        {
+            width:size.width,
+            height:size.height,
+            showCover:true,
+            flippingTime:1400,
+            drawShadow:true,
+            maxShadowOpacity:0.6
+        }
+    );
 
-/* ---------- resize on rotate ---------- */
-window.addEventListener("resize", () => {
-    let s = getSize();
-    pf.update(s.width, s.height);
-});
+    pf.loadFromHTML(document.querySelectorAll(".page"));
 
+    window.prev = ()=>pf.flipPrev();
+    window.next = ()=>pf.flipNext();
 
-/* ---------- PDF ---------- */
+    /* sound */
+    let flipSound = new Audio("flip.mp3");
+
+    document.addEventListener("click", function enable(){
+        flipSound.play().then(()=>{
+            flipSound.pause();
+            flipSound.currentTime=0;
+        });
+        document.removeEventListener("click", enable);
+    });
+
+    pf.on("changeState",(state)=>{
+        if(state==="flipping"){
+            flipSound.currentTime=0;
+            flipSound.play();
+        }
+    });
+}
+
+/* ================= COMMON ================= */
+
 function downloadPDF(){
     window.open("Catalogue_Revised-2.pdf");
 }
-
-
-/* ---------- SOUND (plays at START of flip) ---------- */
-let flipSound = new Audio("flip.mp3");
-flipSound.preload = "auto";
-
-/* unlock audio on first click */
-document.addEventListener("click", function enable(){
-    flipSound.play().then(()=>{
-        flipSound.pause();
-        flipSound.currentTime = 0;
-    });
-    document.removeEventListener("click", enable);
-});
-
-/* play sound when flipping begins */
-pf.on("changeState", (state) => {
-    if(state === "flipping"){
-        flipSound.currentTime = 0;
-        flipSound.play();
-    }
-});
 
 </script>
 
 </body>
 </html>
-
