@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
 <meta charset="UTF-8">
 <title>R1 Tactile Catalogue</title>
@@ -12,20 +11,17 @@ body{
     font-family:Arial, sans-serif;
 }
 
-/* toolbar */
 .toolbar{
     text-align:center;
     padding:10px;
 }
 
-/* buttons */
 button{
     padding:6px 12px;
     margin:4px;
     cursor:pointer;
 }
 
-/* flipbook container */
 #flipbook{
     width:1000px;
     height:700px;
@@ -39,6 +35,8 @@ button{
     background:white;
 }
 </style>
+
+<script src="page-flip.browser.js"></script>
 </head>
 
 
@@ -61,29 +59,23 @@ button{
 </div>
 
 
-<!-- IMPORTANT: ES Module import works on GitHub Pages -->
-<script type="module">
+<script>
 
-import { PageFlip } from './page-flip.browser.js';
-
+/* 🔥 correct constructor */
 const pf = new PageFlip(
     document.getElementById("flipbook"),
     {
         width:1000,
         height:700,
-        showCover:true,
-        mobileScrollSupport:true,
-        useMouseEvents:true
+        showCover:true
     }
 );
 
 pf.loadFromHTML(document.querySelectorAll(".page"));
 
-window.pf = pf;
-
-window.downloadPDF = function(){
+function downloadPDF(){
     window.open("Catalogue_Revised-2.pdf");
-};
+}
 
 </script>
 
