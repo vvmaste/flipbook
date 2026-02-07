@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
 <meta charset="UTF-8">
 <title>R1 Tactile Catalogue</title>
@@ -9,10 +8,9 @@
 body{
     margin:0;
     background:#e5e5e5;
-    font-family:Arial, sans-serif;
+    font-family:Arial;
 }
 
-/* toolbar */
 .toolbar{
     text-align:center;
     padding:10px;
@@ -21,68 +19,61 @@ body{
 button{
     padding:6px 12px;
     margin:4px;
-    cursor:pointer;
 }
 
-/* flipbook container */
 #flipbook{
     width:1000px;
     height:700px;
-    margin:10px auto;
+    margin:20px auto;
 }
 
-.page img{
+#flipbook img{
     width:100%;
     height:100%;
     object-fit:contain;
-    background:white;
 }
 </style>
+
+<script src="jquery.min.js"></script>
+<script src="turn.min.js"></script>
 
 </head>
 
 <body>
 
 <div class="toolbar">
-    <button onclick="pf.flipPrev()">◀ Prev</button>
-    <button onclick="pf.flipNext()">Next ▶</button>
-    <button onclick="downloadPDF()">Download PDF</button>
+<button onclick="$('#flipbook').turn('previous')">Prev</button>
+<button onclick="$('#flipbook').turn('next')">Next</button>
+<button onclick="downloadPDF()">Download PDF</button>
 </div>
 
 <div id="flipbook">
-    <div class="page"><img src="pages/1.jpeg"></div>
-    <div class="page"><img src="pages/2.jpeg"></div>
-    <div class="page"><img src="pages/3.jpeg"></div>
-    <div class="page"><img src="pages/4.jpeg"></div>
-    <div class="page"><img src="pages/5.jpeg"></div>
+<div><img src="pages/1.jpeg"></div>
+<div><img src="pages/2.jpeg"></div>
+<div><img src="pages/3.jpeg"></div>
+<div><img src="pages/4.jpeg"></div>
+<div><img src="pages/5.jpeg"></div>
 </div>
 
-<!-- 🔥 IMPORTANT: must be MODULE -->
-<script type="module">
+<script>
 
-import { PageFlip } from "./page-flip.browser.js";
+$(document).ready(function(){
 
-const pf = new St.PageFlip(
-    document.getElementById("flipbook"),
-    {
+    $('#flipbook').turn({
         width:1000,
         height:700,
-        showCover:true,
-        useMouseEvents:true,
-        mobileScrollSupport:true
-    }
-);
+        autoCenter:true,
+        elevation:50,
+        gradients:true
+    });
 
-pf.loadFromHTML(document.querySelectorAll(".page"));
+});
 
-window.pf = pf;
-
-window.downloadPDF = function(){
+function downloadPDF(){
     window.open("Catalogue_Revised-2.pdf");
-};
+}
 
 </script>
 
 </body>
 </html>
-
