@@ -81,21 +81,25 @@ pf.loadFromHTML(document.querySelectorAll(".page"));
 
 /* sound */
 const flipSound = new Audio("flip.mp3");
+flipSound.preload = "auto";
 
-function playSound(){
-    flipSound.currentTime = 0;
-    flipSound.play();
-}
+/* unlock audio once (browser policy) */
+document.addEventListener("click", function enable(){
+    flipSound.play().then(()=>{
+        flipSound.pause();
+        flipSound.currentTime = 0;
+    });
+    document.removeEventListener("click", enable);
+});
 
-function prev(){
-    playSound();
-    pf.flipPrev();
-}
+/* 🔥 plays for ANY flip (drag or button) */
+pf.on("changeState", (state)=>{
+    if(state === "flipping"){
+        flipSound.currentTime = 0;
+        flipSound.play();
+    }
+});
 
-function next(){
-    playSound();
-    pf.flipNext();
-}
 
 function downloadPDF(){
     window.open("Catalogue_Revised-2.pdf");
@@ -105,3 +109,4 @@ function downloadPDF(){
 
 </body>
 </html>
+
