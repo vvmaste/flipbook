@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
 <meta charset="UTF-8">
 <title>R1 Tactile Catalogue</title>
@@ -12,20 +11,17 @@ body{
     font-family:Arial, sans-serif;
 }
 
-/* toolbar */
 .toolbar{
     text-align:center;
     padding:10px;
 }
 
-/* buttons */
 button{
     padding:6px 12px;
     margin:4px;
     cursor:pointer;
 }
 
-/* flipbook container */
 #flipbook{
     width:1000px;
     height:700px;
@@ -40,9 +36,7 @@ button{
 }
 </style>
 
-<!-- 🔥 LOAD LIBRARY NORMALLY (NOT MODULE) -->
-<script src="./page-flip.browser.js"></script>
-
+<script src="page-flip.browser.js"></script>
 </head>
 
 
@@ -67,15 +61,13 @@ button{
 
 <script>
 
-/* 🔥 IMPORTANT: St.PageFlip (not import PageFlip) */
-const pf = new St.PageFlip(
+/* 🔥 correct constructor */
+const pf = new PageFlip(
     document.getElementById("flipbook"),
     {
         width:1000,
         height:700,
-        showCover:true,
-        mobileScrollSupport:true,
-        useMouseEvents:true
+        showCover:true
     }
 );
 
@@ -89,4 +81,3 @@ function downloadPDF(){
 
 </body>
 </html>
-
