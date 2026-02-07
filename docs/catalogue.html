@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>R1 Tactile Catalogue</title>
+
+<style>
+body{
+    margin:0;
+    background:#e5e5e5;
+    font-family:Arial;
+}
+
+.toolbar{
+    text-align:center;
+    padding:10px;
+}
+
+button{
+    padding:6px 12px;
+    margin:4px;
+    cursor:pointer;
+}
+
+#flipbook{
+    width:98vw;
+    height:90vh;
+    margin:auto;
+}
+
+.page img{
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    background:white;
+}
+</style>
+
+<!-- Redirect to mobile if small screen -->
+<script>
+if (window.innerWidth < 768) {
+    window.location.replace("catalogue-mobile.html");
+}
+</script>
+
+<script src="page-flip.browser.js"></script>
+</head>
+
+<body>
+
+<div class="toolbar">
+    <button onclick="prev()">◀ Prev</button>
+    <button onclick="next()">Next ▶</button>
+    <button onclick="downloadPDF()">Download PDF</button>
+</div>
+
+<div id="flipbook">
+    <div class="page"><img src="pages/1.jpeg"></div>
+    <div class="page"><img src="pages/2.jpeg"></div>
+    <div class="page"><img src="pages/3.jpeg"></div>
+    <div class="page"><img src="pages/4.jpeg"></div>
+    <div class="page"><img src="pages/5.jpeg"></div>
+</div>
+
+<script>
+
+/* Flipbook */
+const pf = new St.PageFlip(
+    document.getElementById("flipbook"),
+    {
+        width:1200,
+        height:800,
+        showCover:true,
+        flippingTime:1400,
+        drawShadow:true,
+        maxShadowOpacity:0.6
+    }
+);
+
+pf.loadFromHTML(document.querySelectorAll(".page"));
+
+/* sound */
+const flipSound = new Audio("flip.mp3");
+
+function playSound(){
+    flipSound.currentTime = 0;
+    flipSound.play();
+}
+
+function prev(){
+    playSound();
+    pf.flipPrev();
+}
+
+function next(){
+    playSound();
+    pf.flipNext();
+}
+
+function downloadPDF(){
+    window.open("Catalogue_Revised-2.pdf");
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>R1 Tactile Catalogue</title>
+
+<style>
+body{
+    margin:0;
+    background:#e5e5e5;
+    font-family:Arial;
+}
+
+/* toolbar */
+.toolbar{
+    position:sticky;
+    top:0;
+    background:white;
+    padding:10px;
+    text-align:center;
+    z-index:10;
+}
+
+/* pages */
+img{
+    width:100%;
+    display:block;
+}
+</style>
+</head>
+
+<body>
+
+<div class="toolbar">
+    <button onclick="prev()">◀ Prev</button>
+    <button onclick="next()">Next ▶</button>
+    <button onclick="downloadPDF()">Download PDF</button>
+</div>
+
+<img src="pages/1.jpeg">
+<img src="pages/2.jpeg">
+<img src="pages/3.jpeg">
+<img src="pages/4.jpeg">
+<img src="pages/5.jpeg">
+
+<script>
+
+/* sound */
+const flipSound = new Audio("flip.mp3");
+
+/* scroll helpers */
+function playSound(){
+    flipSound.currentTime = 0;
+    flipSound.play();
+}
+
+function next(){
+    playSound();
+    window.scrollBy({
+        top: window.innerHeight,
+        behavior:"smooth"
+    });
+}
+
+function prev(){
+    playSound();
+    window.scrollBy({
+        top: -window.innerHeight,
+        behavior:"smooth"
+    });
+}
+
+function downloadPDF(){
+    window.open("Catalogue_Revised-2.pdf");
+}
+
+/* optional: auto sound when manual scroll reaches next page */
+let lastScroll = 0;
+
+window.addEventListener("scroll", ()=>{
+    const current = window.scrollY;
+    if(Math.abs(current - lastScroll) > window.innerHeight*0.8){
+        playSound();
+        lastScroll = current;
+    }
+});
+
+</script>
+
+</body>
+</html>
