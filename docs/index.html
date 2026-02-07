@@ -36,7 +36,6 @@ button{
 }
 </style>
 
-<!-- SAME LIBRARY THAT WORKED BEFORE -->
 <script src="page-flip.browser.js"></script>
 
 </head>
@@ -50,18 +49,16 @@ button{
 </div>
 
 <div id="flipbook">
-
     <div class="page"><img src="pages/1.jpeg"></div>
     <div class="page"><img src="pages/2.jpeg"></div>
     <div class="page"><img src="pages/3.jpeg"></div>
     <div class="page"><img src="pages/4.jpeg"></div>
     <div class="page"><img src="pages/5.jpeg"></div>
-
 </div>
 
 <script>
 
-const pf = new PageFlip(
+const pf = new St.PageFlip(   /* 🔥 THIS IS THE FIX */
     document.getElementById("flipbook"),
     {
         width:1000,
