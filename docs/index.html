@@ -2,139 +2,24 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>R1 Tactile Catalogue</title>
-
-<style>
-body{
-    margin:0;
-    background:#e5e5e5;
-    font-family:Arial;
-}
-
-.toolbar{
-    text-align:center;
-    padding:10px;
-}
-
-button{
-    padding:6px 12px;
-    margin:4px;
-    cursor:pointer;
-}
-
-/* desktop flip */
-#flipbook{
-    width:98vw;
-    height:90vh;
-    margin:auto;
-}
-
-/* mobile scroll */
-@media(max-width:768px){
-    #flipbook{
-        height:auto;
-    }
-    .page{
-        width:100%;
-        height:auto;
-    }
-    .page img{
-        width:100%;
-        height:auto;
-        display:block;
-    }
-}
-</style>
-
-<script src="page-flip.browser.js"></script>
-
-</head>
-
-<body>
-
-<div class="toolbar">
-    <button onclick="prev()">◀ Prev</button>
-    <button onclick="next()">Next ▶</button>
-    <button onclick="downloadPDF()">Download PDF</button>
-</div>
-
-<div id="flipbook">
-    <div class="page"><img src="pages/1.jpeg"></div>
-    <div class="page"><img src="pages/2.jpeg"></div>
-    <div class="page"><img src="pages/3.jpeg"></div>
-    <div class="page"><img src="pages/4.jpeg"></div>
-    <div class="page"><img src="pages/5.jpeg"></div>
-</div>
+<title>Loading Catalogue...</title>
 
 <script>
+/* device detection */
+const isMobile =
+    window.innerWidth < 768 ||
+    /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
-const isMobile = window.innerWidth < 768;
-
-/* ================= MOBILE ================= */
-/* simply DO NOTHING → natural scroll */
-
-if(isMobile){
-
-    window.prev = () => window.scrollBy(0,-window.innerHeight);
-    window.next = () => window.scrollBy(0, window.innerHeight);
-
+/* redirect */
+if (isMobile) {
+    window.location.replace("catalogue-mobile.html");
+} else {
+    window.location.replace("catalogue-desktop.html");
 }
-
-/* ================= DESKTOP ================= */
-else{
-
-    function getSize(){
-        return {
-            width: Math.min(window.innerWidth * 0.98, 1200),
-            height: window.innerHeight * 0.9
-        };
-    }
-
-    let size = getSize();
-
-    const pf = new St.PageFlip(
-        document.getElementById("flipbook"),
-        {
-            width:size.width,
-            height:size.height,
-            showCover:true,
-            flippingTime:1400,
-            drawShadow:true,
-            maxShadowOpacity:0.6
-        }
-    );
-
-    pf.loadFromHTML(document.querySelectorAll(".page"));
-
-    window.prev = ()=>pf.flipPrev();
-    window.next = ()=>pf.flipNext();
-
-    /* sound */
-    let flipSound = new Audio("flip.mp3");
-
-    document.addEventListener("click", function enable(){
-        flipSound.play().then(()=>{
-            flipSound.pause();
-            flipSound.currentTime=0;
-        });
-        document.removeEventListener("click", enable);
-    });
-
-    pf.on("changeState",(state)=>{
-        if(state==="flipping"){
-            flipSound.currentTime=0;
-            flipSound.play();
-        }
-    });
-}
-
-/* ================= COMMON ================= */
-
-function downloadPDF(){
-    window.open("Catalogue_Revised-2.pdf");
-}
-
 </script>
 
+</head>
+<body>
+Redirecting...
 </body>
 </html>
