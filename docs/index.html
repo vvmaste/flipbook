@@ -1,6 +1,4 @@
 <!DOCTYPE html>
-<!-- rebuild -->
-
 <html>
 
 <head>
@@ -41,6 +39,10 @@ button{
     background:white;
 }
 </style>
+
+<!-- 🔥 LOAD LIBRARY NORMALLY (NOT MODULE) -->
+<script src="./page-flip.browser.js"></script>
+
 </head>
 
 
@@ -63,12 +65,10 @@ button{
 </div>
 
 
-<!-- IMPORTANT: ES Module import works on GitHub Pages -->
-<script type="module">
+<script>
 
-import { PageFlip } from './page-flip.browser.js';
-
-const pf = new PageFlip(
+/* 🔥 IMPORTANT: St.PageFlip (not import PageFlip) */
+const pf = new St.PageFlip(
     document.getElementById("flipbook"),
     {
         width:1000,
@@ -81,15 +81,11 @@ const pf = new PageFlip(
 
 pf.loadFromHTML(document.querySelectorAll(".page"));
 
-window.pf = pf;
-
-window.downloadPDF = function(){
+function downloadPDF(){
     window.open("./Catalogue_Revised-2.pdf");
-};
+}
 
 </script>
 
 </body>
 </html>
-
-
