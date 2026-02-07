@@ -11,23 +11,27 @@ body{
     font-family:Arial;
 }
 
+/* toolbar */
 .toolbar{
     text-align:center;
     padding:10px;
 }
 
+/* buttons */
 button{
     padding:6px 12px;
     margin:4px;
     cursor:pointer;
 }
 
+/* ✅ responsive instead of fixed */
 #flipbook{
-    width:1000px;
-    height:700px;
-    margin:20px auto;
+    width:95vw;
+    height:92vh;
+    margin:auto;
 }
 
+/* page image */
 .page img{
     width:100%;
     height:100%;
@@ -58,25 +62,42 @@ button{
 
 <script>
 
-const pf = new St.PageFlip(   /* 🔥 THIS IS THE FIX */
+/* ✅ dynamic size for any screen */
+const pf = new St.PageFlip(
     document.getElementById("flipbook"),
     {
-        width:1000,
-        height:700,
+        width: window.innerWidth * 0.95,
+        height: window.innerHeight * 0.92,
+
         showCover:true,
+
+        /* ✅ smoother animation */
+        flippingTime: 900,
+        maxShadowOpacity: 0.5,
+
+        /* ✅ better interaction */
         useMouseEvents:true,
-        mobileScrollSupport:true
+        mobileScrollSupport:false,
+        clickEventForward:true
     }
 );
 
 pf.loadFromHTML(document.querySelectorAll(".page"));
 
+/* PDF */
 function downloadPDF(){
     window.open("Catalogue_Revised-2.pdf");
 }
+
+/* ✅ optional page flip sound */
+const flipSound = new Audio("flip.mp3");
+
+pf.on("flip", () => {
+    flipSound.currentTime = 0;
+    flipSound.play();
+});
 
 </script>
 
 </body>
 </html>
-
