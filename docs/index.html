@@ -13,11 +13,11 @@ body{
 
 .toolbar{
     text-align:center;
-    padding:12px;
+    padding:10px;
 }
 
 button{
-    padding:6px 14px;
+    padding:6px 12px;
     margin:4px;
     cursor:pointer;
 }
@@ -28,7 +28,7 @@ button{
     margin:20px auto;
 }
 
-#flipbook img{
+.page img{
     width:100%;
     height:100%;
     object-fit:contain;
@@ -36,44 +36,48 @@ button{
 }
 </style>
 
-<!-- MUST be this order -->
-<script src="jquery-3.7.1.min.js"></script>
-<script src="turn.min.js"></script>
+<!-- SAME LIBRARY THAT WORKED BEFORE -->
+<script src="page-flip.browser.js"></script>
 
 </head>
 
 <body>
 
 <div class="toolbar">
-    <button onclick="$('#flipbook').turn('previous')">◀ Prev</button>
-    <button onclick="$('#flipbook').turn('next')">Next ▶</button>
+    <button onclick="pf.flipPrev()">◀ Prev</button>
+    <button onclick="pf.flipNext()">Next ▶</button>
     <button onclick="downloadPDF()">Download PDF</button>
 </div>
 
 <div id="flipbook">
-    <div><img src="pages/1.jpeg"></div>
-    <div><img src="pages/2.jpeg"></div>
-    <div><img src="pages/3.jpeg"></div>
-    <div><img src="pages/4.jpeg"></div>
-    <div><img src="pages/5.jpeg"></div>
+
+    <div class="page"><img src="pages/1.jpeg"></div>
+    <div class="page"><img src="pages/2.jpeg"></div>
+    <div class="page"><img src="pages/3.jpeg"></div>
+    <div class="page"><img src="pages/4.jpeg"></div>
+    <div class="page"><img src="pages/5.jpeg"></div>
+
 </div>
 
 <script>
-$(document).ready(function(){
 
-    $('#flipbook').turn({
+const pf = new PageFlip(
+    document.getElementById("flipbook"),
+    {
         width:1000,
         height:700,
-        autoCenter:true,
-        gradients:true,
-        acceleration:true
-    });
+        showCover:true,
+        useMouseEvents:true,
+        mobileScrollSupport:true
+    }
+);
 
-});
+pf.loadFromHTML(document.querySelectorAll(".page"));
 
 function downloadPDF(){
     window.open("Catalogue_Revised-2.pdf");
 }
+
 </script>
 
 </body>
