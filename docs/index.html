@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 <meta charset="UTF-8">
 <title>R1 Tactile Catalogue</title>
@@ -11,6 +12,7 @@ body{
     font-family:Arial, sans-serif;
 }
 
+/* toolbar */
 .toolbar{
     text-align:center;
     padding:10px;
@@ -22,6 +24,7 @@ button{
     cursor:pointer;
 }
 
+/* flipbook container */
 #flipbook{
     width:1000px;
     height:700px;
@@ -36,9 +39,7 @@ button{
 }
 </style>
 
-<script src="page-flip.browser.js"></script>
 </head>
-
 
 <body>
 
@@ -49,33 +50,36 @@ button{
 </div>
 
 <div id="flipbook">
-
     <div class="page"><img src="pages/1.jpeg"></div>
     <div class="page"><img src="pages/2.jpeg"></div>
     <div class="page"><img src="pages/3.jpeg"></div>
     <div class="page"><img src="pages/4.jpeg"></div>
     <div class="page"><img src="pages/5.jpeg"></div>
-
 </div>
 
+<!-- 🔥 IMPORTANT: must be MODULE -->
+<script type="module">
 
-<script>
+import { PageFlip } from "./page-flip.browser.js";
 
-/* 🔥 correct constructor */
 const pf = new PageFlip(
     document.getElementById("flipbook"),
     {
         width:1000,
         height:700,
-        showCover:true
+        showCover:true,
+        useMouseEvents:true,
+        mobileScrollSupport:true
     }
 );
 
 pf.loadFromHTML(document.querySelectorAll(".page"));
 
-function downloadPDF(){
+window.pf = pf;
+
+window.downloadPDF = function(){
     window.open("Catalogue_Revised-2.pdf");
-}
+};
 
 </script>
 
