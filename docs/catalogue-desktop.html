@@ -36,13 +36,6 @@ button{
 }
 </style>
 
-<!-- Redirect to mobile if small screen -->
-<script>
-if (window.innerWidth < 768) {
-    window.location.replace("catalogue-mobile.html");
-}
-</script>
-
 <script src="page-flip.browser.js"></script>
 </head>
 
@@ -64,7 +57,8 @@ if (window.innerWidth < 768) {
 
 <script>
 
-/* Flipbook */
+/* ================= FLIPBOOK ================= */
+
 const pf = new St.PageFlip(
     document.getElementById("flipbook"),
     {
@@ -79,11 +73,12 @@ const pf = new St.PageFlip(
 
 pf.loadFromHTML(document.querySelectorAll(".page"));
 
-/* sound */
+/* ================= SOUND (GLOBAL) ================= */
+
 const flipSound = new Audio("flip.mp3");
 flipSound.preload = "auto";
 
-/* unlock audio once (browser policy) */
+/* unlock browser audio once */
 document.addEventListener("click", function enable(){
     flipSound.play().then(()=>{
         flipSound.pause();
@@ -92,7 +87,7 @@ document.addEventListener("click", function enable(){
     document.removeEventListener("click", enable);
 });
 
-/* 🔥 plays for ANY flip (drag or button) */
+/* 🔥 plays for ANY flip (drag OR button) */
 pf.on("changeState", (state)=>{
     if(state === "flipping"){
         flipSound.currentTime = 0;
@@ -100,6 +95,12 @@ pf.on("changeState", (state)=>{
     }
 });
 
+
+/* ================= BUTTONS ================= */
+/* NOTE: NO SOUND HERE */
+
+function prev(){ pf.flipPrev(); }
+function next(){ pf.flipNext(); }
 
 function downloadPDF(){
     window.open("Catalogue_Revised-2.pdf");
@@ -109,5 +110,3 @@ function downloadPDF(){
 
 </body>
 </html>
-
-
