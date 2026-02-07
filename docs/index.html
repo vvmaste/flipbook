@@ -89,15 +89,24 @@ function downloadPDF(){
     window.open("Catalogue_Revised-2.pdf");
 }
 
-/* ✅ optional page flip sound */
-const flipSound = new Audio("flip.mp3");
+let flipSound;
+
+document.body.addEventListener("click", () => {
+    if(!flipSound){
+        flipSound = new Audio("flip.mp3");
+    }
+});
 
 pf.on("flip", () => {
-    flipSound.currentTime = 0;
-    flipSound.play();
+    if(flipSound){
+        flipSound.currentTime = 0;
+        flipSound.play();
+    }
 });
+
 
 </script>
 
 </body>
 </html>
+
